@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: smart-edu-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    branch: frontend
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://smart-edu-backend.onrender.com
