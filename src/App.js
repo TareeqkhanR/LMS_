@@ -45,11 +45,11 @@ import ResetPasswordScreen from './components/ResetPasswordScreen';
 import StudentDetailPage from './components/StudentDetailPage';
 
 // ─── Constants ─────────────────────────────────────────────────────────────────
-// In production (Render), REACT_APP_API_URL must be set to your backend URL.
-// In local dev, falls back to http://localhost:5001.
-const _BACKEND   = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-const API_BASE   = _BACKEND.endsWith('/api') ? _BACKEND : `${_BACKEND}/api`;
-const SOCKET_URL = _BACKEND.replace('/api', '');
+// Priority: 1) REACT_APP_API_URL  2) same-origin when on HTTPS  3) localhost for dev
+const _BACKEND = process.env.REACT_APP_API_URL
+  || (window.location.protocol === 'https:' ? window.location.origin : 'http://localhost:5001');
+const API_BASE   = `${_BACKEND}/api`;
+const SOCKET_URL = _BACKEND;
 
 // ─── GPA 10.0 Scale helpers ────────────────────────────────────────────────────
 const marksToGradePoint = (marks, max = 100) => {

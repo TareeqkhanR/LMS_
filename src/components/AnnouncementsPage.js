@@ -3,8 +3,9 @@ import axios from 'axios';
 import { Trash2 } from 'lucide-react';
 import { useUser } from '../Context/UserContext';
 
-const _BACKEND = process.env.REACT_APP_API_URL || 'http://localhost:5001';
-const API_BASE = _BACKEND.endsWith('/api') ? _BACKEND : `${_BACKEND}/api`;
+const _BACKEND = process.env.REACT_APP_API_URL
+  || (window.location.protocol === 'https:' ? window.location.origin : 'http://localhost:5001');
+const API_BASE = `${_BACKEND}/api`;
 
 const timeAgo = (timestamp) => {
   const created = new Date(timestamp).getTime();
