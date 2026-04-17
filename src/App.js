@@ -45,10 +45,11 @@ import ResetPasswordScreen from './components/ResetPasswordScreen';
 import StudentDetailPage from './components/StudentDetailPage';
 
 // ─── Constants ─────────────────────────────────────────────────────────────────
-// Always use the same hostname the browser is on, but always port 5001 for backend.
-const _host      = `http://${window.location.hostname}:5001`;
-const API_BASE   = process.env.REACT_APP_API_URL || `${_host}/api`;
-const SOCKET_URL = _host;
+// In production (Render), REACT_APP_API_URL must be set to your backend URL.
+// In local dev, falls back to http://localhost:5001.
+const _BACKEND   = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+const API_BASE   = _BACKEND.endsWith('/api') ? _BACKEND : `${_BACKEND}/api`;
+const SOCKET_URL = _BACKEND.replace('/api', '');
 
 // ─── GPA 10.0 Scale helpers ────────────────────────────────────────────────────
 const marksToGradePoint = (marks, max = 100) => {
