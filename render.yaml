@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: smart-edu-backend
+    env: node
+    region: singapore
+    rootDir: Server
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
