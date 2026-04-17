@@ -21,12 +21,13 @@ const PORT = process.env.PORT || 5000;
 
 // ✅ CORS CONFIG
 const isAllowedOrigin = (origin) => {
-  if (!origin) return true;
-  if (process.env.CLIENT_URL) return origin === process.env.CLIENT_URL;
-
-  return /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+):\d+$/.test(
-    origin,
-  );
+  if (!origin) return true; // Postman / server-to-server
+  if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return true;
+  // Allow any Render.com deployment
+  if (/^https:\/\/[\w-]+\.onrender\.com$/.test(origin)) return true;
+  // Allow localhost for dev
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+  return false;
 };
 
 app.use(

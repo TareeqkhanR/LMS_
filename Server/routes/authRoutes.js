@@ -51,21 +51,23 @@ const getSmtpTransport = () => {
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, role, department, studentId } = req.body;
+    // Accept both 'name' and 'username' for compatibility
+    const { name, username, email, password, role, department, studentId } = req.body;
+    const displayName = name || username; // use whichever is provided
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ success: false, message: 'Email already registered.' });
     }
 
-    const user = await User.create({ name, email, password, role, department });
+    const user = await User.create({ name: displayName, email, password, role, department });
 
     if (role === 'Student' || role === 'student') {
       if (!studentId) {
         return res.status(400).json({ success: false, message: 'Student ID is required for Student role.' });
       }
       const studentProfile = await Student.create({
-        name,
+        name: displayName,
         email,
         studentId,
         department: department || 'General',
